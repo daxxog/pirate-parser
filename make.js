@@ -8,6 +8,7 @@
 var bitfactory = require('bitfactory'),
     UglifyJS = require("uglify-js"),
     stoptime = require('stoptime'),
+    fstream = require('fstream'),
     spawn = require('child_process').spawn,
     fs = require('fs');
 
@@ -27,11 +28,15 @@ bitfactory.make({ //routes
             });
         },
         "torrents_test.csv.gz": function(cb) {
-            var gz = spawn('gzip', ['-k', 'torrents_test.csv']);
+            var read = fstream.Reader('torrents_test.csv'),
+                write = fstream.Writer('torrents_test.csv.gz'),
+                gz = spawn('gzip');
 
-            gz.on('close', cb);
-            gz.on('error', function() {
-                console.error('error', arguments);
+            read.pipe(gz.stdin);
+            gz.stdout.pipe(write);
+
+            gz.on('close', function() {
+                cb();
             });
         },
         "pirate-parser.min.js": ["header", function(cb) {
