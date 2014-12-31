@@ -28,7 +28,11 @@ bitfactory.make({ //routes
         },
         "torrents_test.csv.gz": function(cb) {
             var gz = spawn('gzip', ['-k', 'torrents_test.csv']);
+
             gz.on('close', cb);
+            gz.on('error', function() {
+                console.error(arguments);
+            });
         },
         "pirate-parser.min.js": ["header", function(cb) {
             fs.writeFileSync('pirate-parser.min.js', header + UglifyJS.minify('pirate-parser.js').code);
