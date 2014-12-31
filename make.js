@@ -31,7 +31,7 @@ bitfactory.make({ //routes
 
             gz.on('close', cb);
             gz.on('error', function() {
-                console.error(arguments);
+                console.error('error', arguments);
             });
         },
         "pirate-parser.min.js": ["header", function(cb) {
