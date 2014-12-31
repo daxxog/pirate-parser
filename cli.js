@@ -5,6 +5,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0.html  
  */
 
-var PirateParser = require('./pirate-parser.min.js');
+var PirateParser = require('./pirate-parser.js'),
+	pirate = new PirateParser(process.argv[2]);
 
-new PirateParser();
+pirate.on('torrent', function(torrent) {
+	console.log(JSON.stringify(torrent));
+});

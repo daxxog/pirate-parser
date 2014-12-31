@@ -3,3 +3,6 @@ node_modules/
 npm-debug.log
 .DS_Store
 ._.DS_Store
+torrents_mini.csv.gz
+torrents_mini.csv
+torrents_test.csv.gz

@@ -8,6 +8,7 @@
 var bitfactory = require('bitfactory'),
     UglifyJS = require("uglify-js"),
     stoptime = require('stoptime'),
+    spawn = require('child_process').spawn,
     fs = require('fs');
 
 var watch = stoptime(),
@@ -24,6 +25,10 @@ bitfactory.make({ //routes
                 header = data;
                 cb(err);
             });
+        },
+        "torrents_test.csv.gz": function(cb) {
+            var gz = spawn('gzip', ['-k', 'torrents_test.csv']);
+            gz.on('close', cb);
         },
         "pirate-parser.min.js": ["header", function(cb) {
             fs.writeFileSync('pirate-parser.min.js', header + UglifyJS.minify('pirate-parser.js').code);
